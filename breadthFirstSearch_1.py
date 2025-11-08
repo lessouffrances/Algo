@@ -8,7 +8,7 @@ class Solution:
         parent = {s: None} #the source does not have any parent
         L_prev = {s} #the first level only has the source itself 
         level_ranking = [L_prev] #the level_ranking will only have the first level
-        visited = set()
+        visited = set(s)
 
         i = 1
         while L_prev:

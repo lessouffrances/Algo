@@ -45,8 +45,6 @@ def main():
 
     for i in range(len(arr)):
         tree.insert(arr[i])
-
-
     print(tree.search(10))
 main()
             

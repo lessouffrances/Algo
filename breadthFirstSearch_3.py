@@ -3,12 +3,14 @@ class Solution:
         # choose a source
         s = list(graph.keys())[0]
 
+
         # initialize
         delta = { s : 0 }
         parent = { s : None }
         L_prev = { s }
         level_ranking = [ L_prev ]
-        visited = set()
+        visited = set(s)
+
 
         i = 1
         while L_prev:
@@ -26,12 +28,12 @@ class Solution:
             L_prev = L_i
             i += 1
 
+
         for v in graph.keys():
             if v not in visited:
                 delta[v] = float('inf')
         
         return delta, parent, level_ranking, visited
-
 
 def main():
     solution = Solution()

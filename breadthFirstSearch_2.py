@@ -8,7 +8,7 @@ class Solution:
         parent = {s: None}
         L_prev = {s}
         level_ranking = [L_prev]
-        visited = set()
+        visited = set(s)
 
         i = 1
         while L_prev:
