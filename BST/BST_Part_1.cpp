@@ -19,6 +19,7 @@ class BST
 {
     private:
     Node* root;
+    BST(): root(nullptr) {};
     
     // private insert 
     Node* insertHelper(Node* node, int val, Node* parent=nullptr) 
@@ -29,14 +30,13 @@ class BST
             return newNode;
         }
 
-
         if (node->val > val) {
             node->left = insertHelper(node->left, val, node);
         } else if (node->val < val) {
             node->right = insertHelper(node->right, val, node);
         }
         return node;
-    }
+    } 
 
     // in-order traverse the BST
     void inOrderTraverseHelper(Node* node) 
