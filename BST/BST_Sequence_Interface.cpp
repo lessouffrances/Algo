@@ -68,8 +68,6 @@ class BST
         if (i < 0 || i >= sizeHelper(root)) return nullptr;
         return subtreeFindAtHelper(root, i);
     }
-
-    
 };
 
 int main()
