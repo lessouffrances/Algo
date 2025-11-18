@@ -18,7 +18,7 @@ struct Node
 class BST 
 {
     private:
-    Node* root;v
+    Node* root;
     BST(): root(nullptr) {};
     
     // private insert 
