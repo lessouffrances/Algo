@@ -37,12 +37,14 @@ class Solution
         while (!L_prev.empty()) {
             set<string> L_i;
             for (const string& u : L_prev) {
-                for (const string& v : graph.at(u)) {
-                    if (visited.find(v) == visited.end()) {
-                        L_i.insert(v);
-                        delta[v] = i;
-                        parent[v] = u;
-                        visited.insert(v);
+                if (graph.find(u) != graph.end()) {
+                    for (const string& v : graph.at(u)) {
+                        if (visited.find(v) == visited.end()) {
+                            L_i.insert(v);
+                            delta[v] = i;
+                            parent[v] = u;
+                            visited.insert(v);
+                        }
                     }
                 }
             }
@@ -54,11 +56,20 @@ class Solution
             i++;
         }
 
-        // unreachable vertices
+        // mark unreachable vertices
+        // collect all nodes in case some nodes are only in the adjacency list but not the keys of the graph map
+        set<string> allVertices;
         for (const auto& pair : graph) {
-            const string& it = pair.first;
-            if (visited.find(it) == visited.end()) {
-                delta[it] = INT_MAX;
+            allVertices.insert(pair.first);
+            for (const auto& neighbor : pair.second) {
+                allVertices.insert(neighbor);
+            }
+        }
+
+        for (const auto& v : allVertices) {
+            if (visited.find(v) == visited.end()) {
+                delta[v] = INT_MAX;
+                parent[v] = "";
             }
         }
 
