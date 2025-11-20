@@ -71,7 +71,7 @@ class Solution
     {
         // initialize delta
         map<char, int> delta;
-        // set delta to max inf to all the vertices
+        // set delta to inf max for all the vertices
         for (const auto& adjList : graph) {
             delta[adjList.first] = INT_MAX;
             for (const auto& pair : adjList.second) {
@@ -95,6 +95,43 @@ class Solution
             }
         }
         return delta;
+    }
+
+
+    // given a DAG, do DAG relaxation and shortest path tree construction
+    pair<map<char, int>, map<char, char>> WeightedShortestPathWithDAGRelaxationAndShortestPathTree(map<char, vector<pair<char, int>>>& graph, char s)
+    {
+        // initialize delta and parent
+        map<char, int> delta;
+        map<char, char> parent;
+
+        // set delta to INF MAX for all vertices except source, and set parent to null for source
+        for (const auto& adjList : graph) {
+            delta[adjList.first] = INT_MAX;
+            for (const auto& pair : adjList.second) {
+                delta[pair.first] = INT_MAX;
+            }
+        }
+        delta[s] = 0;
+        parent[s] = '\0';
+
+        // get topo Order
+        vector<char> topoOrder = fullDepthFirstSearchReturnTopologicalOrder(graph);
+
+        // iterate through topo Order
+        for (const auto& u : topoOrder) {
+            if (delta[u] != INT_MAX && graph.find(u) != graph.end()) {
+                for (const auto& pair : graph.at(u)) {
+                    char v = pair.first;
+                    int weightUtoV = pair.second;
+                    if (delta[v] > delta[u] + weightUtoV) {
+                        delta[v] = delta[u] + weightUtoV;
+                        parent[v] = u;
+                    }
+                }
+            }
+        }
+        return { delta, parent };
     }
 
 
