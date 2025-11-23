@@ -28,11 +28,11 @@ class MinHeapSolution
         int smallest = i;
         int left = 2*i+1, right = 2*i+2;
 
-        if (left < n && arr[left] > arr[smallest]) {
+        if (left < n && arr[left] < arr[smallest]) {
             smallest = left;
         }
 
-        if (right < n && arr[right] > arr[smallest]) {
+        if (right < n && arr[right] < arr[smallest]) {
             smallest = right;
         }
 
@@ -71,6 +71,7 @@ class MinHeapSolution
         if (!arr.empty()) {
             minHeapifyDown(arr, 0, arr.size());
         }
+        return minVal;
     }
 
     int findMin(vector<int>& arr)

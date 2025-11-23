@@ -1,3 +1,4 @@
+// WSP using DAG relaxation will work for negative weights but NOT negative cycles
 #include <vector>
 #include <map>
 #include <utility>
@@ -118,7 +119,7 @@ class Solution
         // get topo Order
         vector<char> topoOrder = fullDepthFirstSearchReturnTopologicalOrder(graph);
 
-        // iterate through topo Order
+        // iterate through topo Order, cannot guarantee that each vertex is reachable from the s so check the delta first!
         for (const auto& u : topoOrder) {
             if (delta[u] != INT_MAX && graph.find(u) != graph.end()) {
                 for (const auto& pair : graph.at(u)) {
@@ -161,10 +162,4 @@ int main()
         {'g' , { {'c', 1}, {'h', -2} }},
         {'h' , { {'c', 9}, {'d', 4} }}
     };
-
-
-
-
-
-
 };
