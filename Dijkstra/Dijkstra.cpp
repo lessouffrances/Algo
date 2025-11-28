@@ -1,5 +1,4 @@
 // cannot address negative weights
-// gotta use min_heap to simulate the priority-queue interface
 #include <vector>
 #include <algorithm>
 #include <cstdio>
@@ -24,7 +23,7 @@ class DijkstraSolution
         set<char> visited;
         map<char, char> parent;
 
-        // set the delta for all vertices to INF_MAX;
+        // set the delta for all vertices to INT_MAX;
         for (const auto& adjList : graph) {
             delta[adjList.first] = INT_MAX;
             for (const auto& pair : adjList.second) {
@@ -45,7 +44,7 @@ class DijkstraSolution
             visited.insert(u);
             if(graph.find(u) != graph.end()) {
                 for (const auto& [v, weightUtoV] : graph.at(u)) {
-                    if(delta[v] > delta[u] + weightUtoV) {
+                    if (delta[v] > delta[u] + weightUtoV) {
                         delta[v] = delta[u] + weightUtoV;   
                         parent[v] = u;
                         pq.push({delta[v], v});

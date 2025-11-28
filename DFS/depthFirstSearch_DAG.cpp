@@ -14,7 +14,7 @@ class DFSSolution
     set<char> ancestorStack; // for cycle detection
 
     // especially needed for DFS
-    void init(const char& source) 
+    void init(char source) 
     {
         visited.clear();
         parent.clear();
@@ -23,8 +23,8 @@ class DFSSolution
         parent[source] = '\0'; // cannot have assignemnt statements outside of a function body in a class.
     }
 
-    // base DFS
-    void depthFirstSearch(const char& u, map<char, vector<char>>& graph)
+    // basic DFS
+    void depthFirstSearch(char u, map<char, vector<char>>& graph)
     {
         if (graph.find(u) != graph.end()) {
             for (const char& v : graph.at(u)) {
@@ -40,7 +40,7 @@ class DFSSolution
 
 
     // DFS detect cycle
-    bool depthFirstSearchDetectCycle(const char& u, map<char, vector<char>>& graph)
+    bool depthFirstSearchDetectCycle(char u, map<char, vector<char>>& graph)
     {
         ancestorStack.insert(u);
 
@@ -126,7 +126,7 @@ class DFSSolution
         printf("\n\n");
     }
 
-
+    // FULL basic DFS
     void fullDepthFirstSearch(map<char, vector<char>>& graph) 
     {
         visited.clear();

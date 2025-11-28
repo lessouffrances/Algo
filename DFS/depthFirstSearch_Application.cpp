@@ -10,6 +10,8 @@ class DFSSolution
     public:
     set<char> visited;
     map<char, char> parent;
+    vector<char> finishingOrder;
+    int componentSize;
 
     // especially needed for DFS
     void init(const char& source) 
@@ -34,13 +36,20 @@ class DFSSolution
         }
     }
 
-    void printParentRelationships()
+    // With count of the vertices in one CC
+    void depthFirstSearchWithComponentSizes(const char& u, map<char, vector<char>>& graph)
     {
-        printf("Child -> Parent\n");
-        for (const auto& pair : parent) {
-            printf("%c -> %c\n", pair.first, pair.second);
+        componentSize ++;
+
+        if (graph.find(u) != graph.end()) {
+            for (const char& v : graph.at(u)) {
+                if (visited.find(v) == visited.end()) {
+                    visited.insert(v);
+                    parent[v] = u;
+                    depthFirstSearchWithComponentSizes(v, graph);
+                }
+            }
         }
-        printf("\n\n");
     }
 
 
@@ -85,6 +94,53 @@ class DFSSolution
         return connectedComponents;
     }
 
+    // FULL DFS count connected components
+    int fullDepthFirstSearchCountConnectedComponents(map<char, vector<char>>& graph) 
+    {
+         visited.clear();
+         parent.clear();
+         int count = 0;
+
+        set<char> allVertices = collectAllVertices(graph);
+
+        for (const auto& v : allVertices) {
+             if (visited.find(v) == visited.end()) {
+                visited.insert(v);
+                parent[v] = '\0';
+                depthFirstSearch(v, graph);
+                count ++;
+                parent.clear();
+             }
+        }
+        return count;
+    }
+
+
+    // FULL DFS count connected components with headcount in each connected component
+    map<int, int> fullDepthFirstSearchCountConnectedComponentsWithSizes(map<char, vector<char>>& graph) 
+    {
+        visited.clear();
+        parent.clear();
+        map<int, int> componentSizes;
+        int count = 0;
+
+        set<char> allVertices = collectAllVertices(graph);
+
+        for (const auto& v : allVertices) {
+             if (visited.find(v) == visited.end()) {
+                visited.insert(v);
+                parent[v] = '\0';
+                componentSize = 0;
+                depthFirstSearchWithComponentSizes(v, graph);
+                count ++;
+                componentSizes.insert( { count, componentSize });
+                parent.clear();
+             }
+        }
+        return componentSizes;
+    }
+
+
     // FULL DFS return finishing order
     vector<char> fullDepthFirstSearchReturnFinishingOrder(map<char, vector<char>>& graph)
     {
@@ -116,6 +172,15 @@ class DFSSolution
             }
         }
         return allVertices;
+    }
+
+    void printParentRelationships()
+    {
+        printf("Child -> Parent\n");
+        for (const auto& pair : parent) {
+            printf("%c -> %c\n", pair.first, pair.second);
+        }
+        printf("\n\n");
     }
 };
 
