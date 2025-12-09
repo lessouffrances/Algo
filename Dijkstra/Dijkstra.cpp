@@ -31,7 +31,7 @@ class DijkstraSolution
             }
         }
         delta[s] = 0;
-        parent[s] = -1;
+        parent[s] = "\0";
 
         // initialize a priority queue       
         priority_queue<pair<int, char>, vector<pair<int, char>>, greater<pair<int, char>>> pq;

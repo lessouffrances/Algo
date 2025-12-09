@@ -68,6 +68,30 @@ class DFSSolution
         return false;
     }
 
+    // for undirected edges: bypass parent, don't double check one edge
+    bool depthFirstSearchDetectCycleUndirectedEdge(char u, map<char, vector<char>>& graph) 
+    {
+      ancestorStack.insert(u);
+      
+      if (graph.find(u) != graph.end()) {
+         for (const auto& v : graph[u]) {
+            if (v == parent[u]) continue; // bypass
+            if (ancestorStack.find(v) != ancestorStack.end()) {
+               return true;
+            }
+            if (visited.find(v) == visited.end()) {
+               visited.insert(v);
+               parent[v] = u;
+               if (depthFirstSearchDetectCycleUndirectedEdge(v)) return true;
+            }
+         }
+      }
+      ancestorStack.erase(u);
+      finishingOrder.push_back(u);
+      return false;
+   }
+
+
     // FULL DFS: isDAG
     bool fullDepthFirstSearchGraphIsDAG(map<char, vector<char>>& graph) 
     {
