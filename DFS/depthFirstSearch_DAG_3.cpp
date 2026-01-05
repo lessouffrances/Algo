@@ -13,7 +13,6 @@ class DFSSolution
     vector<char> finishingOrder;
     set<char> ancestorStack;
 
-
     void init(char source)
     {
         visited.clear();
